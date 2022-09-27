@@ -1,6 +1,6 @@
-const canvas = document.getElementById("canvas")
- const contexto = canvas.getContext("2d")
-   
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
 // Fondo
     
 const imagenFondo = document.createElement("img")
@@ -24,10 +24,6 @@ let subfondo2X = 900
 let subfondo2Y = -100
 
 
-
-
-
-
 // Personaje
   // Parado mirando a la derecha
 const standRight = document.createElement("img")
@@ -39,6 +35,41 @@ let personajeY = -250
 let personajeVelocidadX = 0
 let personajeVelocidadY = 0
 
+// Corriendo a la derecha
+const runRight = document.createElement("img")
+runRight.setAttribute("src", "imagenes/spriteRunRight.png")
+
+// Parado mirando a la izquierda
+const standLeft = document.createElement("img")
+standLeft.setAttribute("src", "imagenes/spriteStandLeft.png")
+
+// Corriendo a la izquierda
+const runLeft = document.createElement("img")
+runLeft.setAttribute("src", "imagenes/spriteRunLeft.png")
+
+
+document.body.addEventListener("keydown", (e) => {
+    if (e.key == "ArrowLeft") {
+      personajeVelocidadX = -10
+    } else if (e.key == "ArrowRight") {
+      personajeVelocidadX = 10
+    } else if (e.key == " ") {
+      personajeVelocidadY = -15
+    }
+})
+  
+document.body.addEventListener("keyup", (e) => {
+    if (e.key == "ArrowLeft") {
+      personajeVelocidadX = 0
+    
+    } else if (e.key == "ArrowRight") {
+      personajeVelocidadX = 0
+    } else if (e.key == " ") {
+      personajeVelocidadY -= 0
+    }
+})
+
+
 let frames = 0
 
   // Parado mirando a la izquierda
@@ -49,14 +80,44 @@ let frames = 0
  
 
 // Plataforma
+class Platform {
+    constructor (x, y, width, height) {
+      this.x = x
+      this.y = y
 
-// const imagenPlataforma = document.createElement("img")
-// imagenPlataforma.setAttribute("src", "imagenes/plataforma.png")
+        this.width = width
+        this.height = height
 
-let plataformaX = 600
-let plataformaY = 500
+        this.image = new Image()
+        this.image.src = "imagenes/Grass.png"
+    }
+    draw () {
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    }
+}
 
-  
+
+
+let platforms = [
+  new Platform(0, 500, 700, 200),
+  new Platform(900, 500, 700, 200),
+  new Platform(1900, 350, 100, 400),
+  new Platform(2000, 500, 200, 200),
+  new Platform(2600, 500, 500, 200),
+  new Platform(3400, 500, 100, 200),
+  new Platform(3700, 500, 100, 200),
+  new Platform(4000, 500, 100, 200),
+
+
+
+
+
+
+
+
+]
+    
+ 
 const gravedad = 0.5
 
 
@@ -65,29 +126,49 @@ function update() {
   
   if (frames > 28) frames = 0
     // Limpiar
-    contexto.clearRect(0, 0, canvas.getAttribute("width"), canvas.getAttribute("height"))
+    ctx.clearRect(0, 0, canvas.getAttribute("width"), canvas.getAttribute("height"))
 
     // Recalcular posición
     personajeX += personajeVelocidadX
-    personajeY += personajeVelocidadY
+  personajeY += personajeVelocidadY
+  
+    // Repintar
+      // Fondo
+    ctx.drawImage(imagenFondo, 0, 0, canvas.getAttribute("width"), canvas.getAttribute("height"))
+    
+    // Subfondo 1 (estrella)
+    ctx.drawImage(imagenSubfondo1, subfondo1X, subfondo1Y, 100, 50)
+    
+    // Subfondo 2 (estrella fugaz)
+    ctx.drawImage(imagenSubfondo2, subfondo2X, subfondo2Y, 30, 40)
+    
+    
+    // Personaje
+      // Astronauta quieto mirando derecha
+    ctx.drawImage(standRight, 177 * frames, 0, 177, 400, personajeX, personajeY, 88, 210)
+  
+   platforms.forEach(platform => {
+        platform.draw()
+    });
 
       // Bordes movimiento personaje
-      if (personajeX >= 500) {
-        personajeX = 500 
+      if (personajeX >= 600) {
+        personajeX = 600 
     } else if (personajeX <= 100) {
         personajeX = 100 
       }
   
       // Plataforma que se mueva
-     if (personajeX == 500) {
-         plataformaX -= 5
+  platforms.forEach(platform => {
+    if (personajeX == 600) {
+      platform.x -= 10
     }
     else if (personajeX == 100) {
-         plataformaX += 5 
-     }
-  
+      platform.x += 10
+    }
+  })  
      // Subfondo estrella que se mueva
-    if (personajeX == 500) {
+    if (personajeX == 600) {
          subfondo1X -= 0.5
     }
     else if (personajeX == 100) {
@@ -95,7 +176,7 @@ function update() {
     }
   
      // Subfondo estrella fugaz que se mueva
-  if (personajeX == 500) {
+  if (personajeX == 600) {
     subfondo2X -= 30
     subfondo2Y +=15
     }
@@ -110,56 +191,20 @@ function update() {
             personajeVelocidadY += gravedad
     else personajeVelocidadY = 0
     
-     if (personajeY + 210 <= plataformaY && personajeY + 210 + personajeVelocidadY >= plataformaY && personajeX + 88 >= plataformaX && personajeX <= plataformaX + 200) {
-            personajeVelocidadY = 0
-        }
-    
-    
-      
-    // Repintar
-      // Fondo
-    contexto.drawImage(imagenFondo, 0, 0, canvas.getAttribute("width"), canvas.getAttribute("height"))
-
-    // Subfondo 1 (estrella)
-    contexto.drawImage(imagenSubfondo1, subfondo1X, subfondo1Y, 100, 50)
   
-    // Subfondo 2 (estrella fugaz)
-  contexto.drawImage(imagenSubfondo2, subfondo2X, subfondo2Y, 30, 40)
   
-   
+     platforms.forEach(platform => {
+    if (
+        personajeY + 210 <= platform.y && personajeY + 210 + personajeVelocidadY >= platform.y && personajeX + 88 >= platform.x && personajeX <= platform.x + platform.width){
+        personajeVelocidadY = 0
+    }
+})
+    // Condición de perder:
   
-    // Personaje
-      // Astronauta quieto mirando derecha
-    contexto.drawImage(standRight, 177 * frames, 0, 177, 400, personajeX, personajeY, 88, 210)
-
-    // Plataforma
-    contexto.fillStyle = "blue"
-    contexto.fillRect(plataformaX, plataformaY, 300, 50)
-    // contexto.drawImage(imagenPlataforma, plataformaX, plataformaY, 200, 50)
-    
+  
   }
 
 setInterval(update, 20)
 
-
-
-document.body.addEventListener("keydown", (e) => {
-    if (e.key == "ArrowLeft") {
-      personajeVelocidadX = -5
-    } else if (e.key == "ArrowRight") {
-      personajeVelocidadX = 5
-    } else if (e.key == " ") {
-      personajeVelocidadY = -15
-    }
-})
-  
-document.body.addEventListener("keyup", (e) => {
-    if (e.key == "ArrowLeft") {
-      personajeVelocidadX = 0
-    
-    } else if (e.key == "ArrowRight") {
-      personajeVelocidadX = 0
-    }
-})
 
 
