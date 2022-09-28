@@ -6,6 +6,42 @@ canvas {
     transform: translate(-50%, -50%);
 }
 
-/* body{
-    background-image: url(imagenes/fondo.jpg);
-} */
+   
+
+#socials {
+    position: absolute;
+    top: 200px;
+    left: 0px;
+    margin: 20px;
+}
+
+#socials img {
+    height: 50px;
+    width: auto;
+}
+
+ /* #start-button {
+    
+
+    margin-top: 500px;
+    margin-left: 500px;
+    
+    
+}   */
+
+.hidden {
+    display: none;
+}
+
+#titulo-gameover {
+    position: absolute;
+        top: 200px;
+        left: 0px;
+        margin: 20px;
+}
+
+#countdown {
+    font-size: 50px;
+    width: 200px;
+    height: 70px;
+}  

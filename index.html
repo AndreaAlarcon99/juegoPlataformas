@@ -4,21 +4,41 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="icon" href="imagenes/meteorite.png" />
     <link rel="stylesheet" href="estilo.css">
+    <title>Viaje a Marte</title>
 </head>
 <body>
-    <!-- <div class="game-intro">
-        <button id="start-button">Start Game</button>
-        <p>Use left and right arrow to control the astronaut and space bar to jump</p>
-      <img src="imagenes/arrows.png" alt="" class="arrowsImg" />
-    </div> -->
-    <div id="game-over-div" class="hidden">
-        <h1> Has perdido... Intentalo de nuevo</h1>
+     <div id="pantalla-inicio">
+    <div id="socials">
+        
+        <a href="https://github.com/AndreaAlarcon99" target="_blank"><img src="imagenes/github.png" alt="My Github" /></a>
+        
+        <a href="https://www.linkedin.com/in/andreaalarconvaldes/" target="_blank"><img src="imagenes/linkedin.png"
+            alt="My Linkedin" /></a>
+
     </div>
 
+    <div id="game-intro">
+
+        <button id="start-button">Empezar juego</button>
+
+    </div>  
+</div>
+
+     <div id="game-over-div" class="hidden">
+
+        <h1  id="titulo-gameover" class="hidden">¡Has perdido!.</h1>
+        
+        <button id="restart-button">Intentar de nuevo</button>
+        
+    </div>
+
+    <p id="countdown"></p>  
+
+
 <div id="canvas-game-div">
-    <canvas id="canvas" class="juego"    width="1100" height="700"></canvas>
+    <canvas id="canvas" class="juego"    width="1400" height="750"></canvas>
 </div>
     <script src="index.js"></script>
 </body>
