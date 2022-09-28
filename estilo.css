@@ -1,4 +1,5 @@
 canvas {
+    z-index: 1;
     /* border: 2px black solid; */
     position: absolute;
     top: 50%;
@@ -6,12 +7,31 @@ canvas {
     transform: translate(-50%, -50%);
 }
 
-   
+#pantalla-inicio {
+    z-index: 3;
+    /* position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); */
+       
+     
+        padding-top: 350px;
+        padding-bottom: 350px;
+        margin-top: 25px;
+        margin-left: 20px;
+        margin-right: 20px;
+background-image: url("imagenes/fondo.png");
+background-size: 1380px, 500px;
+background-position: center;
+
+        
+}  
 
 #socials {
+    z-index: 3;
     position: absolute;
-    top: 200px;
-    left: 0px;
+    top: 15px;
+    left: 30px;
     margin: 20px;
 }
 
@@ -20,14 +40,17 @@ canvas {
     width: auto;
 }
 
- /* #start-button {
-    
+   #start-button {
+z-index: 3;
+font-size: 20px;
+position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 
-    margin-top: 500px;
-    margin-left: 500px;
+    padding: 20px;
     
-    
-}   */
+}    
 
 .hidden {
     display: none;
@@ -41,7 +64,16 @@ canvas {
 }
 
 #countdown {
-    font-size: 50px;
-    width: 200px;
-    height: 70px;
+    position: absolute;
+    top: 5px;
+    left: 50px;
+    font-size: 25px;
+    color: white;
+    width: 100px;
+    height: 50px;
+    z-index: 2;
+    /* border: 2px solid white; */
+    text-align: center;
+    
+
 }  

@@ -27,13 +27,13 @@ function startGame() {
 }
 
 
-// // Crear pantalla game over
+// Crear pantalla game over
 const gameoverDiv = document.getElementById("game-over-div");
 const restartButton = document.getElementById("restart-button");
 const tituloGameover = document.getElementById("titulo-gameover");
 
 
-// // Crear contador
+// Crear contador tiempo
 const countDownEl = document.getElementById("countdown")
 
 const startingMinutes = 02;
@@ -50,6 +50,7 @@ function updateCountdown() {
     time--
 }
 
+// Crear contador score
 
 // Crear fondo  del juego
 const imagenFondo = document.createElement("img")
@@ -70,6 +71,14 @@ imagenPlaneta.setAttribute("src", "imagenes/planeta.png")
 
 let planetaX = 1000
 let planetaY = 50
+
+// Crear subfondo planeta rosa
+const imagenPlanetaRosa = document.createElement("img")
+imagenPlanetaRosa.setAttribute("src", "imagenes/planetatierra.png")
+
+let planetaRosaX = 1500
+let planetaRosaY = 10
+
 
 
 
@@ -109,7 +118,9 @@ let jugador = new Jugador()
 document.body.addEventListener("keydown", (e) => {
   if (e.key == "ArrowLeft") {
     jugador.velocidadX = -10
-  } else if (e.key == "ArrowRight") {
+  }
+  
+  else if (e.key == "ArrowRight") {
     jugador.velocidadX = 10
   } else if (e.key == " ") {
     jugador.velocidadY = -15
@@ -173,8 +184,12 @@ class Platform {
 
 
 let platforms = [
-  new Platform(-20, 600, 650, 160),
+  new Platform(-250, 600, 650, 160),
   new Platform(2500, 600, 800, 160),
+  new Platform(3800, 600, 650, 160),
+  new Platform(8000, 600, 500, 160),
+
+
 
 ]
 
@@ -196,35 +211,52 @@ class Platform2 {
 }
 
 let platforms2 = [
-  new Platform2(1100, 450, 200, 300),
-  new Platform2(1800, 450, 200, 300),
+  new Platform2(800, 450, 200, 300),
+  new Platform2(1600, 450, 200, 300),
+  new Platform2(4250, 450, 200, 300),
+  new Platform2(4900, 300, 200, 300),
+  new Platform2(5800, 400, 80, 130),
+  new Platform2(6400, 300, 80, 130),
+  new Platform2(7200, 400, 80, 130),
 
 ]
 
 // Creación de aliens que dan puntos
+let puntos = 0
+
 class Alien {
     constructor (x, y) {
       this.x = x
       this.y = y
 
-        this.width = 150
-        this.height = 150
+        this.width = 170
+      this.height = 150
+      
+      this.direccion = "down"
 
         this.image = new Image()
-        this.image.src = "imagenes/alien.png"
+        this.image.src = "imagenes/alienconovni.png"
     }
     draw () {
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
     }
+  
+  colision() {
+    if (jugador.x && jugador.y == this.x && this.y) {
+      
+    }
+    
+  }
 }
 
 let aliens = [
-  new Alien(1300, 450),
-  new Alien(4300, 450),
+  new Alien(500, 0),
+  new Alien(4300, 0),
 
 ]
     
- 
+// let intervalId;
+
 // Función update para ir actualizando
 
 function update() {
@@ -241,6 +273,7 @@ function update() {
   jugador.y += jugador.velocidadY
   
   // Repintar
+
   // Fondo
   ctx.drawImage(imagenFondo, 0, 0, canvas.getAttribute("width"), canvas.getAttribute("height"))
   
@@ -250,7 +283,10 @@ function update() {
   // Subfondo planeta
   ctx.drawImage(imagenPlaneta, planetaX, planetaY, 200, 200)
 
-  
+  // Subfondo planeta rosa
+  ctx.drawImage(imagenPlanetaRosa, planetaRosaX, planetaRosaY, 180, 150)
+
+
     
   // Subfondo 2 (estrella fugaz)
   ctx.drawImage(imagenSubfondo2, subfondo2X, subfondo2Y, 30, 40)
@@ -263,6 +299,8 @@ function update() {
   // Personaje
   jugador.draw()
   
+
+
   // Plataformas
   platforms.forEach(platform => {
     platform.draw()
@@ -322,9 +360,32 @@ function update() {
     if (jugador.x == 600) {
       alien.x -= 10
     } else if (jugador.x == 100) {
-      alien.x += 10
+      alien.x +=10
     }
   })
+
+  aliens.forEach(alien => {
+    if (alien.direccion == "down") {
+      alien.y+= 5
+      if (alien.y >= 600) {
+        alien.direccion = "up"
+      }
+    } else {
+      alien.y-=5
+      if (alien.y == 100) {
+        alien.direccion = "down"
+      }
+    }
+    
+})
+
+  
+
+  // aliens.forEach(alien => {
+  //   if (jugador.x  >= alien.x) {
+  //     alien.y -= 50
+  //   }
+  // })
   
   // // Movimiento subfondo estrella
 
@@ -338,6 +399,10 @@ function update() {
     planetaX -= 0.5
   }
 
+  // Movimiento subfondo planeta rosa
+  if (jugador.x == 600) {
+    planetaRosaX -= 0.5
+  }
     
   
   // Subfondo estrella fugaz movimiento
