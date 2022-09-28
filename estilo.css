@@ -8,7 +8,7 @@ canvas {
 }
 
 #pantalla-inicio {
-    z-index: 3;
+    z-index: 0;
     /* position: absolute;
         top: 50%;
         left: 50%;
@@ -28,7 +28,7 @@ background-position: center;
 }  
 
 #socials {
-    z-index: 3;
+    z-index: 2;
     position: absolute;
     top: 15px;
     left: 30px;
@@ -41,7 +41,7 @@ background-position: center;
 }
 
    #start-button {
-z-index: 3;
+z-index: 2;
 font-size: 20px;
 position: absolute;
     top: 50%;
@@ -71,9 +71,21 @@ position: absolute;
     color: white;
     width: 100px;
     height: 50px;
-    z-index: 2;
+    z-index: 3;
     /* border: 2px solid white; */
     text-align: center;
-    
 
 }  
+#score {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    font-size: 25px;
+    color: white;
+    width: 100px;
+    height: 50px;
+    z-index: 3;
+    /* border: 2px solid white; */
+    text-align: center;
+
+}

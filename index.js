@@ -51,6 +51,11 @@ function updateCountdown() {
 }
 
 // Crear contador score
+let scoreShow = document.querySelector("#score span")
+let score = 0
+
+
+
 
 // Crear fondo  del juego
 const imagenFondo = document.createElement("img")
@@ -187,7 +192,15 @@ let platforms = [
   new Platform(-250, 600, 650, 160),
   new Platform(2500, 600, 800, 160),
   new Platform(3800, 600, 650, 160),
-  new Platform(8000, 600, 500, 160),
+  new Platform(7800, 600, 500, 160),
+  new Platform(8700, 600, 500, 160),
+  new Platform(1330, 600, 500, 160),
+  new Platform(13700, 600, 500, 160),
+  new Platform(14600, 620, 400, 140),
+  new Platform(18200, 600, 500, 160),
+  new Platform(19350, 600, 600, 160),
+
+
 
 
 
@@ -212,12 +225,31 @@ class Platform2 {
 
 let platforms2 = [
   new Platform2(800, 450, 200, 300),
-  new Platform2(1600, 450, 200, 300),
-  new Platform2(4250, 450, 200, 300),
+  // new Platform2(1600, 450, 200, 300),
+  new Platform2(4300, 450, 200, 300),
   new Platform2(4900, 300, 200, 300),
   new Platform2(5800, 400, 80, 130),
   new Platform2(6400, 300, 80, 130),
   new Platform2(7200, 400, 80, 130),
+  new Platform2(9600, 400, 150, 200),
+  new Platform2(10200, 500, 150, 200),
+  new Platform2(10900, 400, 150, 200),
+  new Platform2(11500, 300, 150, 200),
+  new Platform2(12000, 200, 150, 200),
+  new Platform2(12700, 200, 150, 200),
+  //next
+  new Platform2(15500, 600, 90, 150),
+  new Platform2(16000, 550, 90, 150),
+  new Platform2(16500, 480, 90, 150),
+  new Platform2(17000, 370, 90, 150),
+  new Platform2(17500, 290, 90, 150),
+
+ 
+
+
+
+
+
 
 ]
 
@@ -229,8 +261,8 @@ class Alien {
       this.x = x
       this.y = y
 
-        this.width = 170
-      this.height = 150
+        this.width = 160
+      this.height = 145
       
       this.direccion = "down"
 
@@ -242,16 +274,52 @@ class Alien {
     }
   
   colision() {
-    if (jugador.x && jugador.y == this.x && this.y) {
+    if (!(((jugador.x + jugador.width) < this.x) || ((canvas.height - jugador.height) > (this.y + this.height)) || (jugador.x > (this.x + this.width)) || ((canvas.height - jugador.height) < this.y))) {
+      score += 1
       
-    }
-    
+      scoreShow.innerHTML = score
+    } 
   }
 }
 
 let aliens = [
   new Alien(500, 0),
-  new Alien(4300, 0),
+  new Alien(1800, 0),
+  new Alien(2050, 300),
+  new Alien(2300, 700),
+  new Alien(3400, 700),
+  new Alien(4600, 0),
+  new Alien(5300, 0),
+  new Alien(6000, 0),
+  new Alien(6600, 300),
+  new Alien(6900, 700),
+  new Alien(7500, 0),
+  new Alien(8450, 0),
+  new Alien(9300, 0),
+  new Alien(9900, 700),
+  new Alien(10400, 0),
+  new Alien(10700, 700),
+  new Alien(11200, 0),
+  new Alien(11750, 0),
+  new Alien(12350, 300),
+  new Alien(13000, 0),
+  new Alien(13300, 700),
+  new Alien(15200, 0),
+  new Alien(16200, 0),
+  new Alien(16700, 0),
+  new Alien(17800, 0),
+  new Alien(18900, 0),
+  new Alien(0, 0),
+  new Alien(0, 0),
+  new Alien(0, 0),
+  new Alien(0, 0),
+  new Alien(0, 0),
+  new Alien(0, 0),
+  new Alien(0, 0),
+  new Alien(0, 0),
+  new Alien(0, 0),
+
+
 
 ]
     
@@ -300,6 +368,7 @@ function update() {
   jugador.draw()
   
 
+  
 
   // Plataformas
   platforms.forEach(platform => {
@@ -314,6 +383,8 @@ function update() {
   aliens.forEach(alien => {
     alien.draw()
   });
+
+  
 
   // Bordes movimiento personaje
   if (jugador.x >= 600) {
@@ -355,6 +426,10 @@ function update() {
 
   // Aliens movimiento
 
+   aliens.forEach(alien => {
+    alien.colision()
+   });
+  
   aliens.forEach(alien => {
   
     if (jugador.x == 600) {
@@ -452,7 +527,7 @@ function update() {
     restartButton.classList.remove("hidden");
     tituloGameover.classList.remove("titulo-gameover")
     countDownEl.remove()
-    //  }
+    
   
   }
 }
