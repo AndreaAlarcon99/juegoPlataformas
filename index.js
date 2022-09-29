@@ -4,8 +4,10 @@ const ctx = canvas.getContext("2d");
 
 
 // // Crear pantalla de inicio
-const redesSociales = document.getElementById("socials")
 const pantallaInicio = document.getElementById("game-intro")
+const redesSociales = document.getElementById("socials")
+const tutorial = document.getElementById("tutorial")
+
 
 document.getElementById("start-button").onclick = () => {
   gameIntro();
@@ -16,7 +18,7 @@ document.getElementById("start-button").onclick = () => {
 function gameIntro() {
   pantallaInicio.remove()
   redesSociales.remove()
-  
+  tutorial.remove()
 }
 
 let intervalId;
@@ -32,6 +34,10 @@ const gameoverDiv = document.getElementById("game-over-div");
 const restartButton = document.getElementById("restart-button");
 const tituloGameover = document.getElementById("titulo-gameover");
 
+document.getElementById("restart-button").onclick = () => {
+  startGame();
+  setInterval(updateCountdown, 1000)
+}
 
 // Crear contador tiempo
 const countDownEl = document.getElementById("countdown")
@@ -108,6 +114,8 @@ class Jugador {
     this.velocidadX = 0
     this.velocidadY = 0
 
+    this.saltando = false;
+
     this.image = new Image()
     this.image.src = "imagenes/spriteStandRight.png"
   }
@@ -127,10 +135,14 @@ document.body.addEventListener("keydown", (e) => {
   
   else if (e.key == "ArrowRight") {
     jugador.velocidadX = 10
+
   } else if (e.key == " ") {
-    jugador.velocidadY = -15
+   jugador.velocidadY -= 15
   }
 })
+
+
+
 
 document.body.addEventListener("keyup", (e) => {
   if (e.key == "ArrowLeft") {
@@ -138,6 +150,7 @@ document.body.addEventListener("keyup", (e) => {
     
   } else if (e.key == "ArrowRight") {
     jugador.velocidadX = 0
+
   } else if (e.key == " ") {
     jugador.velocidadY -= 0
   }
@@ -148,12 +161,15 @@ let frames = 0
 
 // Crear obstáculo meteorito
 class Meteorito {
-    constructor (x) {
+    constructor (x, y) {
       this.x = x
-      this.y = -400
+      this.y = y
 
       this.width = 200
       this.height = 200
+
+      this.direccion = "down"
+
 
       this.image = new Image()
       this.image.src = "imagenes/meteorite.png"
@@ -162,12 +178,30 @@ class Meteorito {
     draw () {
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
     }
+  
+  colision() {
+    if (!(((jugador.x + jugador.width) < this.x) || ((canvas.height - jugador.height) > (this.y + this.height)) || (jugador.x > (this.x + this.width)) || ((canvas.height - jugador.height) < this.y))) {
+      score -= 1
+      
+      scoreShow.innerHTML = score
+    } 
+  }
 }
 
 let meteoritos = [
-  new Meteorito(700),
-  new Meteorito(1000),
-  new Meteorito(1500)
+  new Meteorito(1100, 0),
+  new Meteorito(2050, 300),
+  new Meteorito(5550, 0),
+  new Meteorito(14300, 0),
+  new Meteorito(15750, 0),
+  new Meteorito(17200, 0),
+  new Meteorito(18800 , 0),
+  
+  
+  
+  
+  
+ 
 ]
 
 // Creación de las plataformas
@@ -197,13 +231,14 @@ let platforms = [
   new Platform(1330, 600, 500, 160),
   new Platform(13700, 600, 500, 160),
   new Platform(14600, 620, 400, 140),
+
   new Platform(18200, 600, 500, 160),
+
   new Platform(19350, 600, 600, 160),
 
-
-
-
-
+  new Platform(21900, 600, 600, 160),
+  new Platform(22900, 600, 600, 160),
+  new Platform(23900, 600, 600, 160),
 ]
 
 // Plataforma alta
@@ -225,7 +260,6 @@ class Platform2 {
 
 let platforms2 = [
   new Platform2(800, 450, 200, 300),
-  // new Platform2(1600, 450, 200, 300),
   new Platform2(4300, 450, 200, 300),
   new Platform2(4900, 300, 200, 300),
   new Platform2(5800, 400, 80, 130),
@@ -237,19 +271,14 @@ let platforms2 = [
   new Platform2(11500, 300, 150, 200),
   new Platform2(12000, 200, 150, 200),
   new Platform2(12700, 200, 150, 200),
-  //next
   new Platform2(15500, 600, 90, 150),
   new Platform2(16000, 550, 90, 150),
   new Platform2(16500, 480, 90, 150),
   new Platform2(17000, 370, 90, 150),
   new Platform2(17500, 290, 90, 150),
-
- 
-
-
-
-
-
+  new Platform2(20400, 450, 200, 300),
+  new Platform2(21200, 400, 200, 300),
+  new Platform2(25000, 500, 200, 300),
 
 ]
 
@@ -261,7 +290,7 @@ class Alien {
       this.x = x
       this.y = y
 
-        this.width = 160
+        this.width = 140
       this.height = 145
       
       this.direccion = "down"
@@ -285,11 +314,10 @@ class Alien {
 let aliens = [
   new Alien(500, 0),
   new Alien(1800, 0),
-  new Alien(2050, 300),
   new Alien(2300, 700),
   new Alien(3400, 700),
   new Alien(4600, 0),
-  new Alien(5300, 0),
+  new Alien(5200, 0),
   new Alien(6000, 0),
   new Alien(6600, 300),
   new Alien(6900, 700),
@@ -308,84 +336,74 @@ let aliens = [
   new Alien(16200, 0),
   new Alien(16700, 0),
   new Alien(17800, 0),
-  new Alien(18900, 0),
-  new Alien(0, 0),
-  new Alien(0, 0),
-  new Alien(0, 0),
-  new Alien(0, 0),
-  new Alien(0, 0),
-  new Alien(0, 0),
-  new Alien(0, 0),
-  new Alien(0, 0),
-  new Alien(0, 0),
-
-
-
+  new Alien(19100, 0),
+  new Alien(20100, 300),
+  new Alien(20700, 200),
+  new Alien(21000, 400),
+  new Alien(21500, 0),
+  new Alien(22600, 100),
+  new Alien(23600, 300),
+  new Alien(24600, 0),
+  new Alien(24800, 0),
 ]
     
-// let intervalId;
 
-// Función update para ir actualizando
+
 
 function update() {
   // Para sprite del personaje
   frames++
-   
   if (frames > 28) frames = 0
+
 
   // Limpiar
   ctx.clearRect(0, 0, canvas.getAttribute("width"), canvas.getAttribute("height"))
 
+
+  
+  // Repintar
+  
+    // Fondo
+    ctx.drawImage(imagenFondo, 0, 0, canvas.getAttribute("width"), canvas.getAttribute("height"))
+  
+    // Subfondo planeta
+    ctx.drawImage(imagenPlaneta, planetaX, planetaY, 200, 200)
+  
+    // Subfondo planeta rosa
+    ctx.drawImage(imagenPlanetaRosa, planetaRosaX, planetaRosaY, 180, 150)
+  
+    // Subfondo estrella fugaz
+    ctx.drawImage(imagenSubfondo2, subfondo2X, subfondo2Y, 30, 40)
+  
+    // Meteorito
+    meteoritos.forEach(meteorito => {
+      meteorito.draw()
+    })
+  
+    // Aliens
+    aliens.forEach(alien => {
+      alien.draw()
+    });
+  
+    // Personaje
+    jugador.draw()
+  
+    // Plataformas
+    platforms.forEach(platform => {
+      platform.draw()
+    });
+  
+    platforms2.forEach(platform => {
+      platform.draw()
+    });
+  
+  
+  
   // Recalcular posición del personaje
   jugador.x += jugador.velocidadX
   jugador.y += jugador.velocidadY
   
-  // Repintar
-
-  // Fondo
-  ctx.drawImage(imagenFondo, 0, 0, canvas.getAttribute("width"), canvas.getAttribute("height"))
   
-  // // Subfondo estrella
-  // ctx.drawImage(imagenEstrellas, estrellasX, estrellaY, 1300, 400)
-    
-  // Subfondo planeta
-  ctx.drawImage(imagenPlaneta, planetaX, planetaY, 200, 200)
-
-  // Subfondo planeta rosa
-  ctx.drawImage(imagenPlanetaRosa, planetaRosaX, planetaRosaY, 180, 150)
-
-
-    
-  // Subfondo 2 (estrella fugaz)
-  ctx.drawImage(imagenSubfondo2, subfondo2X, subfondo2Y, 30, 40)
-  
-  // Meteorito
-  meteoritos.forEach(meteorito => {
-    meteorito.draw()
-  })
-  
-  // Personaje
-  jugador.draw()
-  
-
-  
-
-  // Plataformas
-  platforms.forEach(platform => {
-    platform.draw()
-  });
-
-  platforms2.forEach(platform => {
-    platform.draw()
-  });
-  
-  // Aliens
-  aliens.forEach(alien => {
-    alien.draw()
-  });
-
-  
-
   // Bordes movimiento personaje
   if (jugador.x >= 600) {
     jugador.x = 600
@@ -393,19 +411,8 @@ function update() {
     jugador.x = 100
   }
   
-  // Meteorito movimiento
   
-  // meteoritos.forEach(meteorito => {
-  //   if (jugador.x == meteorito.x - 100) {
-  //   meteorito.y += 20
-  // }
-  // })
-
-   
-  
-
-  
-  // Plataforma movimiento
+  // Movimiento de las plataformas
   platforms.forEach(platform => {
     if (jugador.x == 600) {
       platform.x -= 10
@@ -424,19 +431,17 @@ function update() {
     }
   })
 
-  // Aliens movimiento
-
+  // Movimiento de los aliens
    aliens.forEach(alien => {
     alien.colision()
    });
   
   aliens.forEach(alien => {
-  
     if (jugador.x == 600) {
       alien.x -= 10
-    } else if (jugador.x == 100) {
-      alien.x +=10
-    }
+     } else if (jugador.x == 100) {
+       alien.x +=10
+     }
   })
 
   aliens.forEach(alien => {
@@ -450,26 +455,50 @@ function update() {
       if (alien.y == 100) {
         alien.direccion = "down"
       }
+    }   
+  })
+
+  aliens.forEach(alien => {
+    if ((jugador.x - 300) > alien.x) {
+      alien.y -= 100
     }
-    
-})
-
+  })
   
 
-  // aliens.forEach(alien => {
-  //   if (jugador.x  >= alien.x) {
-  //     alien.y -= 50
-  //   }
-  // })
+  // Movimiento de los meteoritos
+  meteoritos.forEach(meteorito => {
+    meteorito.colision()
+  });
   
-  // // Movimiento subfondo estrella
-
-  // if (jugador.x == 600) {
-  //   estrellasX -= 0.2
-  // }
+   meteoritos.forEach(meteorito => {
+    if (jugador.x == 600) {
+      meteorito.x -= 10
+     } else if (jugador.x == 100) {
+       meteorito.x +=10
+     }
+   })
+  
+  meteoritos.forEach(meteorito => {
+    if (meteorito.direccion == "down") {
+      meteorito.y+= 10
+      if (meteorito.y >= 650) {
+        meteorito.direccion = "up"
+      }
+    } else {
+      meteorito.y-=10
+      if (meteorito.y == 10) {
+        meteorito.direccion = "down"
+      }
+    }   
+  })
+  
+   meteoritos.forEach(meteorito => {
+    if ((jugador.x - 300) > meteorito.x) {
+      meteorito.y += 100
+    }
+  })
 
   // Movimiento subfondo planeta
-
   if (jugador.x == 600) {
     planetaX -= 0.5
   }
@@ -479,8 +508,7 @@ function update() {
     planetaRosaX -= 0.5
   }
     
-  
-  // Subfondo estrella fugaz movimiento
+  // Movimiento subfondo estrella fugaz movimiento
   if (jugador.x == 600) {
     subfondo2X -= 30
     subfondo2Y += 15
@@ -489,8 +517,7 @@ function update() {
     subfondo2X += 0
     subfondo2Y -= 0
   }
-    
-   
+      
   // Creación de la gravedad
   if (jugador.y + 210 + jugador.velocidadY <= canvas.height)
     jugador.velocidadY += gravedad
@@ -512,22 +539,20 @@ function update() {
     }
   })
   
-  //   // Condición de perder:
+  // Condición de perder:
   if (jugador.y >= canvas.height - jugador.height) {
     gameoverDiv.classList.remove("hidden");
     canvas.classList.add("hidden");
     restartButton.classList.remove("hidden");
     tituloGameover.classList.remove("titulo-gameover")
     countDownEl.remove()
-
   }
+
   if (time == 0) {
     gameoverDiv.classList.remove("hidden");
     canvas.classList.add("hidden");
     restartButton.classList.remove("hidden");
     tituloGameover.classList.remove("titulo-gameover")
     countDownEl.remove()
-    
-  
   }
 }
