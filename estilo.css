@@ -1,6 +1,6 @@
 canvas {
     z-index: 1;
-   
+
     position: absolute;
     top: 50%;
     left: 50%;
@@ -9,30 +9,28 @@ canvas {
 
 #pantalla-inicio {
     z-index: 0;
-   
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+
+  
     padding-top: 350px;
     padding-bottom: 350px;
     margin-top: 25px;
     margin-left: 20px;
     margin-right: 20px;
-    /* background-image: url("imagenes/fondo.png"); */
+     background-image: url("imagenes/tutorial.png"); 
     border: 2px black solid;
     background-size: 1380px, 500px;
     background-position: center;
 
-        
-}  
 
-/* #socials {
+}
+
+#socials {
     z-index: 2;
     position: absolute;
     top: 15px;
-    left: 30px;
+    left: 1200px;
     margin: 20px;
-} */
+} 
 
 #socials img {
     z-index: 2;
@@ -40,16 +38,15 @@ canvas {
     width: auto;
 }
 
-/* #start-button {
+#start-button {
     z-index: 2;
-
     font-size: 20px;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 20px;
-}     */
+}     
 
 .hidden {
     display: none;
@@ -70,7 +67,7 @@ canvas {
     left: 60px;
     font-size: 35px;
     color: white;
-}  
+}
 
 #score {
     z-index: 3;
@@ -85,7 +82,7 @@ canvas {
     text-align: sp;
 }
 
-#score span{
+#score span {
     font-size: 25px;
     color: white;
     align-self: center;
@@ -96,10 +93,10 @@ canvas {
 
     width: 80px;
     height: 80px;
-    align-self: flex-start;   
+    align-self: flex-start;
 }
 
-#game-over-div button{
+#game-over-div button {
     z-index: 2;
 
     font-size: 20px;
@@ -107,6 +104,6 @@ canvas {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 20px;    
+    padding: 20px;
 
 }
