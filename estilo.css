@@ -7,6 +7,8 @@ canvas {
     transform: translate(-50%, -50%);
 }
 
+
+
 #pantalla-inicio {
     z-index: 0;
     padding-top: 350px;
@@ -63,7 +65,7 @@ canvas {
     top: 65px;
     left: 60px;
     font-size: 35px;
-    color: white;
+    color: orange;
 }
 
 #score {
@@ -81,7 +83,7 @@ canvas {
 
 #score span {
     font-size: 25px;
-    color: white;
+    color: orange;
     align-self: center;
 }
 
@@ -103,10 +105,4 @@ canvas {
     transform: translate(-50%, -50%);
     padding: 20px;
 
-}
-
-#ganar{
-   
-   width: 1300px;
-   height: 400px
 }

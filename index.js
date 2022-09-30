@@ -557,7 +557,7 @@ function update() {
   
 
   // Condición de ganar:
-  if (score == 20) {
+  if (score == 5) {
 
      pantallaInicio.remove()
     ganarDiv.classList.remove("hidden")
