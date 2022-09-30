@@ -4,7 +4,7 @@ const ctx = canvas.getContext("2d");
 
 
 // // Crear pantalla de inicio
-const pantallaInicio = document.getElementById("game-intro")
+const pantallaInicio = document.getElementById("pantalla-inicio")
 const redesSociales = document.getElementById("socials")
 
 let startButton = document.getElementById("start-button").onclick = () => {
@@ -26,12 +26,12 @@ function startGame() {
 
 // Crear pantalla victoria
 const ganarDiv = document.getElementById("ganar")
-const tituloGanar = document.getElementById("titulo-ganar");
+
 
 
 // Crear pantalla perder
 const gameoverDiv = document.getElementById("game-over-div");
-const tituloGameover = document.getElementById("titulo-gameover");
+const imagenPerder = document.getElementById("imagenPerder")
 
 
 // Crear contador tiempo
@@ -558,28 +558,28 @@ function update() {
 
   // Condición de ganar:
   if (score == 20) {
+
+     pantallaInicio.remove()
     ganarDiv.classList.remove("hidden")
-    canvas.classList.add("hidden")
-    tituloGanar.classList.remove("titulo-ganar")
-    countDownEl.remove()
-    
+    gameoverDiv.classList.add("hidden");
+    canvas.remove()
   }
 
   
   // Condición de perder:
   if (jugador.y >= canvas.height - jugador.height) {
+    pantallaInicio.remove()
+    ganarDiv.classList.add("hidden")
     gameoverDiv.classList.remove("hidden");
-    canvas.classList.add("hidden");
-    tituloGameover.classList.remove("titulo-gameover")
-    countDownEl.add()
+    canvas.remove()
    }
 
 
   if (time == 0) {
+    pantallaInicio.remove()
+    ganarDiv.classList.add("hidden")
     gameoverDiv.classList.remove("hidden");
-    canvas.classList.add("hidden");
-    tituloGameover.classList.remove("titulo-gameover")
-    countDownEl.remove()
+    canvas.remove()
   }
 }
 

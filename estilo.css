@@ -9,20 +9,21 @@ canvas {
 
 #pantalla-inicio {
     z-index: 0;
-
-  
     padding-top: 350px;
     padding-bottom: 350px;
     margin-top: 25px;
     margin-left: 20px;
     margin-right: 20px;
-     background-image: url("imagenes/tutorial.png"); 
-    border: 2px black solid;
-    background-size: 1380px, 500px;
+    
+     background-image: url("imagenes/fondopantallainicio.png"); 
+    /* border: 2px black solid; */
+    background-size: 1300px, 400px;
     background-position: center;
 
 
 }
+
+
 
 #socials {
     z-index: 2;
@@ -42,22 +43,18 @@ canvas {
     z-index: 2;
     font-size: 20px;
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 600px;
+    left: 1200px;
     transform: translate(-50%, -50%);
     padding: 20px;
+    
 }     
 
 .hidden {
     display: none;
 }
 
-#titulo-gameover {
-    position: absolute;
-    top: 200px;
-    left: 0px;
-    margin: 20px;
-}
+
 
 #countdown {
     z-index: 3;
@@ -106,4 +103,10 @@ canvas {
     transform: translate(-50%, -50%);
     padding: 20px;
 
+}
+
+#ganar{
+   
+   width: 1300px;
+   height: 400px
 }
